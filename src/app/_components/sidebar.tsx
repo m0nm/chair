@@ -1,13 +1,28 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "../_lib/utils";
+import { useParams } from "next/navigation";
+import { dict } from "../_config/i18n/sidebar-dict";
+import { useMediaQuery } from "react-responsive";
+
+import { cn, dictMatcher } from "../_lib/utils";
 import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
 
 import {
   Package,
@@ -23,131 +38,109 @@ import {
   UserPlusIcon,
   FileIcon,
   UsersIcon,
-  TableIcon,
-  BarChart2Icon,
-  MapPinIcon,
 } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
 
 const ITEMS = [
-  { label: "MAIN" },
-  { label: "Dashboard", icon: Home, link: "/" },
+  { label: "main" },
+  { label: "dashboard", icon: Home, link: "/" },
   {
-    label: "Products",
+    label: "products",
     icon: Package,
     link: "/products",
     subItems: [
       {
-        label: "View Products",
+        label: "viewProducts",
         link: "/products",
       },
       {
-        label: "Products Grid",
+        label: "productsGrid",
         link: "/products/grid",
       },
       {
-        label: "Product Details",
+        label: "productDetails",
         link: "/products/details",
       },
       {
-        label: "New Product",
+        label: "newProduct",
         link: "/products/new",
       },
     ],
   },
   {
-    label: "Orders",
+    label: "orders",
     icon: Receipt,
     link: "/orders",
     subItems: [
       {
-        label: "View Orders",
+        label: "viewOrders",
         link: "/orders",
       },
       {
-        label: "Order Details",
+        label: "orderDetails",
         link: "/orders/details",
       },
     ],
   },
-  { label: "Customers", icon: Users, link: "/customers" },
+  { label: "customers", icon: Users, link: "/customers" },
   {
-    label: "Categories",
+    label: "categories",
     icon: SquareStack,
     link: "/categories",
     subItems: [
       {
-        label: "View Categories",
+        label: "viewCategories",
         link: "/categories",
       },
       {
-        label: "New Category",
+        label: "newCategory",
         link: "/categories/new",
       },
     ],
   },
 
   {
-    label: "Coupons",
+    label: "coupons",
     icon: Percent,
     link: "/coupons",
     subItems: [
       {
-        label: "View Coupons",
+        label: "viewCoupons",
         link: "/coupons",
       },
       {
-        label: "New Coupon",
+        label: "newCoupon",
         link: "/coupons/new",
       },
     ],
   },
-  { label: "PAGES" },
+  { label: "pages" },
   {
-    label: "PAGES",
+    label: "pages",
     icon: FileIcon,
     link: "/blank",
     subItems: [
-      { label: "Blank", link: "/blank" },
-      { label: "404", link: "/404" },
-      { label: "500", link: "/500" },
-      { label: "Profile", link: "/profile" },
-      { label: "Cart", link: "/cart" },
+      { label: "blank", link: "/blank" },
+      { label: "error404", link: "/404" },
+      { label: "error500", link: "/500" },
+      { label: "profile", link: "/profile" },
+      { label: "cart", link: "/cart" },
     ],
   },
   {
-    label: "Auth",
+    label: "auth",
     icon: UsersIcon,
     link: "/login",
     subItems: [
-      { label: "Login", icon: LogInIcon, link: "/login" },
-      { label: "Sign Up", icon: UserPlusIcon, link: "/sign-up" },
+      { label: "login", icon: LogInIcon, link: "/login" },
+      { label: "signUp", icon: UserPlusIcon, link: "/sign-up" },
     ],
-  },
-  { label: "COMPONENTS" },
-  {
-    label: "Data Tables",
-    icon: TableIcon,
-    link: "/data-tables",
-  },
-  {
-    label: "Charts",
-    icon: BarChart2Icon,
-    link: "/charts",
-  },
-  {
-    label: "Maps",
-    icon: MapPinIcon,
-    link: "/maps",
   },
 ];
 
 export const Sidebar = () => {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en");
+
   const [expanded, setExpand] = useState(true);
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
@@ -158,8 +151,8 @@ export const Sidebar = () => {
   return (
     <aside
       className={cn(
-        expanded ? "w-56" : "!w-[53px]",
-        "sticky inset-0 !z-50 flex h-screen w-56 flex-shrink-0 flex-col border bg-background pr-4 pt-4 font-normal transition-all duration-200 ease-in-out dark:bg-slate-900/80",
+        expanded ? "w-56" : "!w-0 !p-0",
+        "sticky inset-0 !z-50 flex h-screen w-56 flex-shrink-0 flex-col border bg-background pr-4 pt-4 font-normal transition-all duration-200 ease-in-out dark:border-0",
       )}
       aria-label="Sidebar"
     >
@@ -186,10 +179,10 @@ export const Sidebar = () => {
                 key={item.label}
                 className={cn(
                   !expanded && "hidden",
-                  "ml-4 select-none pb-1 pt-3 text-xs text-foreground",
+                  "ml-4 select-none pb-1 pt-3 text-xs text-foreground rtl:text-right",
                 )}
               >
-                {item.label}
+                {t(item.label as "main")}
               </li>
             ) : (
               <li
@@ -197,27 +190,40 @@ export const Sidebar = () => {
                 title={item.label}
                 className={cn(
                   !expanded && "px-2",
-                  "ml-2 flex min-h-[2.5rem] cursor-pointer items-center rounded-lg px-1 pb-3 text-gray-600 shadow-sm hover:bg-gray-100 dark:text-foreground dark:hover:bg-neutral-600",
+                  "my-1 ml-2 flex min-h-[2.5rem] cursor-pointer items-center rounded-lg px-1 text-gray-600 shadow-sm hover:bg-gray-100 dark:text-foreground dark:hover:bg-neutral-600",
                 )}
               >
                 {item.subItems ? (
                   <Accordion
                     type="single"
                     collapsible
-                    className="w-full flex-1"
+                    className="w-full flex-1 pt-2"
                   >
                     <CollapseItem
-                      label={item.label}
-                      Icon={item.icon}
                       link={item.link}
-                      subItems={item.subItems}
-                    />
+                      Icon={item.icon}
+                      label={t(item.label as "main")}
+                    >
+                      {item.subItems.map((subItem) => (
+                        <li
+                          dir="rtl"
+                          key={subItem.label}
+                          className="ml-6 list-item h-6 list-inside list-disc"
+                        >
+                          <Link href={subItem.link}>
+                            <span className="pl-3 hover:text-gray-500">
+                              {t(subItem.label as "main")}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </CollapseItem>
                   </Accordion>
                 ) : (
                   <SingleItem
                     key={item.label}
                     link={item.link}
-                    label={item.label}
+                    label={t(item.label as "main")}
                     Icon={item.icon}
                   />
                 )}
@@ -237,28 +243,19 @@ type SingleItemProps = {
 };
 
 type CollapseItemProps = SingleItemProps & {
-  subItems: { label: string; link: string }[];
+  children: ReactNode;
 };
 
-function CollapseItem({ link, Icon, label, subItems }: CollapseItemProps) {
+function CollapseItem({ children, label, link, Icon }: CollapseItemProps) {
   return (
     <AccordionItem value={label} className="!border-b-0">
-      <AccordionTrigger className="w-full rounded-lg p-0">
+      <AccordionTrigger className="w-full rounded-lg p-0 ">
         <SingleItem link={link} Icon={Icon} label={label} />
       </AccordionTrigger>
 
-      <AccordionContent className="text-xs text-gray-600 dark:text-gray-200">
+      <AccordionContent className="text-xs text-gray-600 rtl:text-right dark:text-gray-200">
         <br />
-        {subItems.map((subItem) => (
-          <li
-            key={subItem.label}
-            className="ml-6 list-item h-8 list-inside list-disc"
-          >
-            <Link href={subItem.link}>
-              <span className="pl-3 hover:text-gray-500">{subItem.label}</span>
-            </Link>
-          </li>
-        ))}
+        {children}
       </AccordionContent>
     </AccordionItem>
   );
@@ -268,7 +265,7 @@ function SingleItem({ Icon, label, link }: SingleItemProps) {
   return (
     <Link
       href={link}
-      className="flex w-full items-center gap-4 text-sm font-semibold"
+      className="flex w-full items-center gap-4 text-sm font-semibold rtl:flex-row-reverse"
     >
       {<Icon size={20} />}
 
@@ -290,7 +287,7 @@ function ToggleSidebarButton({
       onClick={() => setExpand((p) => !p)}
       variant={"outline"}
       size={"icon"}
-      className="absolute -right-4 top-[51%] z-10 h-8 w-8 rounded-full border-0 bg-foreground text-center  text-background"
+      className="absolute -right-4 top-[51%] z-10 h-8 w-8 rounded-full border-0 bg-foreground text-center text-background  rtl:right-[95%] rtl:-scale-x-100"
     >
       {expanded ? <ChevronLeftIcon /> : <ChevronRightIcon />}
     </Button>

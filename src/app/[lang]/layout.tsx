@@ -1,12 +1,16 @@
-import "./globals.css";
+import "../globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { ThemeProvider } from "./_providers/theme-provider";
-import { cn } from "./_lib/utils";
-import { Sidebar } from "./_components/sidebar";
-import { Navbar } from "./_components/navbar";
+import { Inter, Almarai } from "next/font/google";
+import { ThemeProvider } from "../_providers/theme-provider";
+import { cn } from "../_lib/utils";
+import { Sidebar } from "../_components/sidebar";
+import { Navbar } from "../_components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
+const almarai = Almarai({
+  subsets: ["arabic"],
+  weight: ["300", "400", "700", "800"],
+});
 
 export const metadata: Metadata = {
   title: "Chair | Ecommerce Admin Dashboard",
@@ -29,15 +33,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { lang: string };
 }) {
   return (
-    <html lang="en">
+    <html lang={params.lang ?? "en"} dir={params.lang == "ar" ? "rtl" : "ltr"}>
       <body
         className={cn(
-          inter.className,
-          "flex h-full bg-slate-50 dark:bg-background",
+          params.lang == "ar" ? almarai.className : inter.className,
+          "flex h-full bg-muted dark:bg-zinc-900",
         )}
       >
         <ThemeProvider
