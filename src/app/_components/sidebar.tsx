@@ -152,7 +152,7 @@ export const Sidebar = () => {
     <aside
       className={cn(
         expanded ? "w-56" : "!w-0 !p-0",
-        "sticky inset-0 !z-50 flex h-screen w-56 flex-shrink-0 flex-col border bg-background pr-4 pt-4 font-normal transition-all duration-200 ease-in-out dark:border-0",
+        "sticky inset-0 z-50 flex h-screen w-56 flex-col border bg-background pr-4 pt-4 font-normal transition-all duration-200 ease-in-out dark:border-0",
       )}
       aria-label="Sidebar"
     >
@@ -176,7 +176,7 @@ export const Sidebar = () => {
           {ITEMS.map((item) => {
             return !(item.icon && item.link) ? (
               <li
-                key={item.label}
+                key={`label-${item.label}`}
                 className={cn(
                   !expanded && "hidden",
                   "ml-4 select-none pb-1 pt-3 text-xs text-foreground rtl:text-right",

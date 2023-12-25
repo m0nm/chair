@@ -5,6 +5,7 @@ import { ThemeProvider } from "../_providers/theme-provider";
 import { cn } from "../_lib/utils";
 import { Sidebar } from "../_components/sidebar";
 import { Navbar } from "../_components/navbar";
+import { Footer } from "../_components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const almarai = Almarai({
@@ -43,7 +44,7 @@ export default function RootLayout({
       <body
         className={cn(
           params.lang == "ar" ? almarai.className : inter.className,
-          "flex h-full bg-muted dark:bg-zinc-900",
+          "flex bg-muted dark:bg-zinc-900",
         )}
       >
         <ThemeProvider
@@ -53,10 +54,13 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Sidebar />
-          <main className="flex-1">
+          <div className="flex-1">
             <Navbar />
-            {children}
-          </main>
+            <main className="mx-auto px-8 pt-16">
+              {children}
+              <Footer />
+            </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -36,11 +36,11 @@ export const Navbar = () => {
   const { t } = dictMatcher(dict, lang as "en");
 
   return (
-    <nav className="flex w-full items-center justify-between border-b bg-white px-8 py-4 dark:border-b-gray-800 dark:bg-transparent">
+    <nav className="flex w-full items-center justify-between border-b bg-white px-4 py-4 dark:border-b-gray-800 dark:bg-transparent">
       <context.Provider value={{ t }}>
         <Searchbar />
 
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2 md:ml-0">
           <LangSwitch />
           <ThemeModeToggle />
           <NotificationDropdown />
@@ -217,7 +217,7 @@ function LangSwitch() {
 function Searchbar() {
   const { t } = useContext(context);
   return (
-    <form className="relative">
+    <form className="relative hidden md:inline-block">
       <input
         className="h-10 rounded-3xl border px-5 pr-16 text-sm focus:outline-none dark:border-0"
         type="search"
