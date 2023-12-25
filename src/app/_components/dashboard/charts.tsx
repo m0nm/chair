@@ -127,7 +127,7 @@ export const MonthlySalesBarChart = () => {
 
   return (
     <ResponsiveContainer width="100%" height={"100%"}>
-      <BarChart data={barData}>
+      <BarChart data={barData} height={350}>
         <Tooltip
           cursor={false}
           wrapperClassName="!bg-foreground/30 !rounded !text-background"

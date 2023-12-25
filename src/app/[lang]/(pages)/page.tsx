@@ -1,14 +1,16 @@
+import { dictMatcher } from "@/app/_lib/utils";
+import { dict } from "@/app/_config/i18n/dashboard-dict";
+import { PageHeader } from "@/app/_components/page-header";
+import { DataCard } from "@/app/_components/dashboard/data-card";
 import {
   TraficDonutChart,
   MonthlySalesBarChart,
   RevenuLineChart,
 } from "@/app/_components/dashboard/charts";
-import { DataCard } from "@/app/_components/dashboard/data-card";
 import {
   BestSellersTable,
   LatestOrdersTable,
 } from "@/app/_components/dashboard/tables";
-import { PageHeader } from "@/app/_components/page-header";
 import {
   Card,
   CardContent,
@@ -22,15 +24,16 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-export default function Home() {
+export default function Home({ params }: { params: { lang: "en" | "ar" } }) {
+  const { t } = dictMatcher(dict, params.lang);
   return (
     <>
-      <PageHeader header="Dashboard" />
+      <PageHeader header={t("pageHeader")} />
 
       <div className="mb-8 grid w-full grid-cols-4 gap-4">
         <div className="col-span-full sm:col-span-2 lg:col-span-1">
           <DataCard
-            label="Total Orders"
+            label={t("dataCards").totalOrders}
             Icon={<ShoppingCartIcon />}
             count="421"
             colorVariant="green"
@@ -38,18 +41,22 @@ export default function Home() {
         </div>
         <div className="col-span-full sm:col-span-2 lg:col-span-1">
           <DataCard
-            label="Total Sales"
+            label={t("dataCards").totalSales}
             Icon={<CreditCardIcon />}
             count="$21K"
             colorVariant="yellow"
           />
         </div>
         <div className="col-span-full sm:col-span-2 lg:col-span-1">
-          <DataCard label="New Customers" Icon={<UserPlusIcon />} count="12" />
+          <DataCard
+            label={t("dataCards").newCustomers}
+            Icon={<UserPlusIcon />}
+            count="12"
+          />
         </div>
         <div className="col-span-full sm:col-span-2 lg:col-span-1">
           <DataCard
-            label="Users Online"
+            label={t("dataCards").usersOnline}
             Icon={<UsersIcon />}
             count="62"
             colorVariant="indigo"
@@ -60,7 +67,9 @@ export default function Home() {
       <div className="mb-8 flex flex-col gap-5 md:flex-row">
         <Card className="flex-1">
           <CardHeader>
-            <CardTitle className="text-md">Monthly Sales</CardTitle>
+            <CardTitle className="text-md">
+              {t("charts").monthlySales}
+            </CardTitle>
           </CardHeader>
           <CardContent className="h-[250px] px-0 lg:h-[450px]">
             <MonthlySalesBarChart />
@@ -69,7 +78,9 @@ export default function Home() {
 
         <Card className="flex-1">
           <CardHeader>
-            <CardTitle className="text-md">Traffic Source</CardTitle>
+            <CardTitle className="text-md">
+              {t("charts").trafficSource}
+            </CardTitle>
           </CardHeader>
           <CardContent className="h-[350px] min-h-[350px] lg:h-[450px]">
             <TraficDonutChart />
@@ -79,7 +90,7 @@ export default function Home() {
       <div className="mb-14 grid grid-cols-6 justify-between gap-5">
         <Card className="col-span-full md:col-span-4">
           <CardHeader>
-            <CardTitle className="text-md">Monthly Sales</CardTitle>
+            <CardTitle className="text-md">{t("charts").revenue}</CardTitle>
           </CardHeader>
           <CardContent className="h-[250px] px-0 lg:h-[450px]">
             <RevenuLineChart />
@@ -88,7 +99,7 @@ export default function Home() {
 
         <Card className="col-span-full md:col-span-2">
           <CardHeader>
-            <CardTitle className="text-md">Best Sellers</CardTitle>
+            <CardTitle className="text-md">{t("tables").bestSellers}</CardTitle>
           </CardHeader>
           <CardContent className="">
             <BestSellersTable />
@@ -98,7 +109,7 @@ export default function Home() {
 
       <Card className="col-span-full md:col-span-2">
         <CardHeader>
-          <CardTitle className="text-md">Latest Orders </CardTitle>
+          <CardTitle className="text-md">{t("tables").latestOrders}</CardTitle>
         </CardHeader>
         <CardContent className="max-w-sm p-0 md:max-w-full md:p-6">
           <LatestOrdersTable />

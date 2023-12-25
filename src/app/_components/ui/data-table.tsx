@@ -47,6 +47,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 };
 
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
+  const { lang } = useParams();
   const { columns, data } = props;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -78,7 +79,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       {/* searchbar */}
       <div className="float-right flex items-center py-4">
         <Input
-          placeholder="Search..."
+          placeholder={lang == "ar" ? "ابحث..." : "Search..."}
           className="max-w-sm"
           value={globalFilter ?? ""}
           onChange={(e) => {
@@ -229,6 +230,7 @@ import {
   FastForwardIcon,
   SortAscIcon,
 } from "lucide-react";
+import { useParams } from "next/navigation";
 
 interface DataTablePaginationProps<TData> {
   table: TableType<TData>;
