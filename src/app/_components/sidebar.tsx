@@ -160,7 +160,10 @@ export const Sidebar = () => {
 
       <ScrollArea>
         <div className="flex h-20 justify-center">
-          <Link href="/" className={cn("inline-block", !expanded && "ml-3")}>
+          <Link
+            href={"/" + lang}
+            className={cn("inline-block", !expanded && "ml-3")}
+          >
             <Image
               priority
               src={"/logo.png"}
@@ -200,17 +203,17 @@ export const Sidebar = () => {
                     className="w-full flex-1 pt-2"
                   >
                     <CollapseItem
-                      link={item.link}
+                      link={lang + item.link}
                       Icon={item.icon}
                       label={t(item.label as "main")}
                     >
                       {item.subItems.map((subItem) => (
                         <li
-                          dir="rtl"
+                          dir={lang == "ar" ? "rtl" : "ltr"}
                           key={subItem.label}
                           className="ml-6 list-item h-6 list-inside list-disc"
                         >
-                          <Link href={subItem.link}>
+                          <Link href={`${lang}/` + subItem.link}>
                             <span className="pl-3 hover:text-gray-500">
                               {t(subItem.label as "main")}
                             </span>
@@ -222,7 +225,7 @@ export const Sidebar = () => {
                 ) : (
                   <SingleItem
                     key={item.label}
-                    link={item.link}
+                    link={lang + item.link}
                     label={t(item.label as "main")}
                     Icon={item.icon}
                   />

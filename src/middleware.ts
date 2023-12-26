@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (!pathname.includes("/en") && !pathname.includes("/ar")) {
     const url = request.nextUrl.clone();
-    url.pathname = "/en";
+    url.pathname = "/en" + pathname;
     return NextResponse.redirect(url);
   }
 
