@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Almarai } from "next/font/google";
 import { ThemeProvider } from "../_providers/theme-provider";
 import { cn } from "../_lib/utils";
+import { Toaster } from "../_components/ui/sonner";
 import { Sidebar } from "../_components/sidebar";
 import { Navbar } from "../_components/navbar";
 import { Footer } from "../_components/footer";
@@ -49,10 +50,11 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster />
           <Sidebar />
           <div className="flex-1">
             <Navbar />

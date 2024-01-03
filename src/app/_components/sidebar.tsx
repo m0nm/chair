@@ -53,10 +53,6 @@ const ITEMS = [
         link: "/products",
       },
       {
-        label: "productsGrid",
-        link: "/products/grid",
-      },
-      {
         label: "productDetails",
         link: "/products/details",
       },
@@ -86,16 +82,6 @@ const ITEMS = [
     label: "categories",
     icon: SquareStack,
     link: "/categories",
-    subItems: [
-      {
-        label: "viewCategories",
-        link: "/categories",
-      },
-      {
-        label: "newCategory",
-        link: "/categories/new",
-      },
-    ],
   },
 
   {
@@ -120,10 +106,14 @@ const ITEMS = [
     link: "/blank",
     subItems: [
       { label: "blank", link: "/blank" },
-      { label: "error404", link: "/404" },
-      { label: "error500", link: "/500" },
+      {
+        label: "shop",
+        link: "/shop",
+      },
       { label: "profile", link: "/profile" },
       { label: "cart", link: "/cart" },
+      { label: "error404", link: "/404" },
+      { label: "error500", link: "/500" },
     ],
   },
   {
@@ -203,7 +193,7 @@ export const Sidebar = () => {
                     className="w-full flex-1 pt-2"
                   >
                     <CollapseItem
-                      link={lang + item.link}
+                      link={"/" + lang + item.link}
                       Icon={item.icon}
                       label={t(item.label as "main")}
                     >
@@ -225,7 +215,7 @@ export const Sidebar = () => {
                 ) : (
                   <SingleItem
                     key={item.label}
-                    link={lang + item.link}
+                    link={"/" + lang + item.link}
                     label={t(item.label as "main")}
                     Icon={item.icon}
                   />
