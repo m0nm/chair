@@ -1,12 +1,17 @@
 import { db } from "@/app/_lib/prisma";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
-  const data = await db.category.findMany({
-    include: { _count: { select: { products: true } } },
-    orderBy: { updatedAt: "desc" },
-  });
+  const data = await db.category
+    .findMany({
+      include: { _count: { select: { products: true } } },
+      orderBy: { updatedAt: "desc" },
+    })
+    .catch((e) => {
+      console.error("e: ", e);
+      throw e;
+    });
   return NextResponse.json(data);
 }
 
@@ -28,7 +33,7 @@ export async function POST(req: NextRequest) {
       throw e;
     });
 
-    revalidateTag("categories");
+    revalidatePath("/categories");
 
     return NextResponse.json(
       { success: true, message: "Category created successfully" },

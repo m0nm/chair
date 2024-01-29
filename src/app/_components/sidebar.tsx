@@ -203,7 +203,7 @@ export const Sidebar = () => {
                           key={subItem.label}
                           className="ml-6 list-item h-6 list-inside list-disc"
                         >
-                          <Link href={`${lang}/` + subItem.link}>
+                          <Link href={subItem.link}>
                             <span className="pl-3 hover:text-gray-500">
                               {t(subItem.label as "main")}
                             </span>

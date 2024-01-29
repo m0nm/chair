@@ -81,7 +81,7 @@ function generateProducts() {
   return data;
 }
 
-function ProductsGridPage({
+function ShopPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -128,4 +128,4 @@ function ProductsGridPage({
   );
 }
 
-export default ProductsGridPage;
+export default ShopPage;

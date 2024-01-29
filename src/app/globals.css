@@ -48,3 +48,27 @@
     --ring: 35.5 91.7% 32.9%;
   }
 }
+
+/* reset styles for tiptap editor */
+.ProseMirror {
+  min-height: 100px;
+  outline: none;
+  padding: 1.5rem;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  all: revert;
+  padding: 0 1rem;
+}
+
+.ProseMirror p {
+  margin: 0;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  all: revert;
+  line-height: 1.1;
+}
