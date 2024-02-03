@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 import type { Prisma } from "@prisma/client";
 
+import { DeleteProductModal } from "./delete-product-modal";
 import { DataTable, DataTableColumnHeader } from "../ui/data-table";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -83,7 +84,7 @@ const columns: ColumnDef<Product>[] = [
         ) : row.original.condition == "HOT" ? (
           <Badge variant={"destructive"}>HOT</Badge>
         ) : (
-          <Badge className="bg-neutral-700 hover:bg-neutral-600 dark:bg-neutral-400 dark:hover:bg-neutral-300">
+          <Badge className="bg-neutral-300 hover:bg-neutral-400 dark:bg-neutral-400 dark:hover:bg-neutral-300">
             Regular
           </Badge>
         )}
@@ -142,7 +143,7 @@ const columns: ColumnDef<Product>[] = [
           </Link>
         </Button>
 
-        {/* <DeleteProduct id={row.original.id} /> */}
+        <DeleteProductModal id={row.original.id} />
       </div>
     ),
   },

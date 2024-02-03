@@ -48,6 +48,7 @@ const defaultValues = {
   stock: 1,
   published: true,
   attributes: [{ label: "Colors", value: ["red", "blue"] }],
+  price: 0,
 };
 
 async function createProduct(data: FormData) {
@@ -65,7 +66,6 @@ export default function NewProductPage() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log("data: ", data);
     const formData = new FormData();
 
     for (const key in data) {

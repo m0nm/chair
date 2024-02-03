@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       if (key === "thumbnail" || key === "images") {
         return;
       } else if (key === "price" || key === "salePrice" || key === "stock") {
-        productData[key] = parseInt(value as string);
+        productData[key] = parseFloat(value as string);
         return;
       } else if (key === "condition" && value) {
         productData.condition = value as "NEW";
@@ -101,6 +101,30 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { message: "Could not create the product", success: false, error },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { id } = (await req.json()) as { id: string };
+
+    await db.product.delete({ where: { id } }).catch((e) => {
+      console.error("error: ", e);
+      throw e;
+    });
+
+    revalidatePath("/products");
+
+    return NextResponse.json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (e) {
+    console.error("error: ", e);
+    return NextResponse.json(
+      { success: false, message: "Could not delete the product", error: e },
       { status: 500 },
     );
   }

@@ -4,7 +4,7 @@ import { Input } from "./input";
 import { cn } from "@/app/_lib/utils";
 import { XIcon } from "lucide-react";
 
-type IProps = React.HtmlHTMLAttributes<HTMLInputElement> & {
+type IProps = Omit<React.HtmlHTMLAttributes<HTMLInputElement>, "onChange"> & {
   defaultTags?: string[];
   className?: string;
   badgeClassName?: string;
@@ -26,7 +26,9 @@ export const TagInput = ({
   const [tags, setTags] = React.useState(defaultTags);
 
   function handleUnselect(tag: string) {
-    setTags(tags.filter((t) => t !== tag));
+    const newTags = tags.filter((t) => t !== tag);
+    onTagsChange(newTags);
+    setTags(newTags);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -36,8 +38,8 @@ export const TagInput = ({
       e.stopPropagation();
       if (value) {
         if (tags.findIndex((t) => t === value) !== -1) return; // ignore duplicates
+        onTagsChange([...tags, value]);
         setTags([...tags, value]);
-        onTagsChange(tags);
         inputRef.current.value = "";
       }
     } else if (e.key === "Escape") {

@@ -1,8 +1,6 @@
 "use client";
 import StarterKit from "@tiptap/starter-kit";
 import { useEditor, EditorContent, Editor as EditorType } from "@tiptap/react";
-import * as z from "zod";
-import { ProductFormSchema } from "@/app/_lib/zod";
 import { ControllerRenderProps } from "react-hook-form";
 
 import { cn } from "@/app/_lib/utils";
@@ -26,10 +24,8 @@ import {
   SelectValue,
 } from "../ui/select";
 
-const schema = ProductFormSchema.partial();
-
 type IProps = {
-  field: ControllerRenderProps<z.infer<typeof schema>, "description">;
+  field: ControllerRenderProps<{ description: string }, "description">;
 };
 
 export const Editor = ({ field }: IProps) => {

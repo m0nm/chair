@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Input } from "../ui/input";
@@ -7,24 +6,26 @@ import { Label } from "../ui/label";
 import { ImagePlusIcon, UploadIcon, X } from "lucide-react";
 import { Button } from "../ui/button";
 
-import type { Control } from "react-hook-form";
+import type { Control, UseFormResetField } from "react-hook-form";
 import { FormItem, FormField, FormControl, FormLabel } from "../ui/form";
 
 type Iprops = {
-  defautlThumnbail?: string;
-  defautlImages?: string[];
+  defaultThumnbail?: string;
+  defaultImages?: string[];
   control: Control<any, any>;
+  resetField: UseFormResetField<any>;
 };
 
 export const ImageUploadForm = ({
   control,
-  defautlImages,
-  defautlThumnbail,
+  defaultImages,
+  defaultThumnbail,
+  resetField,
 }: Iprops) => {
   const [thumbnail, setThumbnail] = useState<string[]>(
-    defautlThumnbail ? [defautlThumnbail] : [],
+    defaultThumnbail ? [defaultThumnbail] : [],
   );
-  const [images, setImages] = useState<string[]>(defautlImages ?? []);
+  const [images, setImages] = useState<string[]>(defaultImages ?? []);
 
   function onFileSelected(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -94,7 +95,7 @@ export const ImageUploadForm = ({
           <div className="z-20">
             <ImagePreview
               isThumnail
-              reset={() => control._reset({ thumbnail: undefined })}
+              reset={() => {}}
               images={thumbnail}
               setImages={setThumbnail}
               width="250px"
@@ -157,7 +158,7 @@ export const ImageUploadForm = ({
         <div className="mt-8 grid justify-center">
           {images.length > 0 ? (
             <ImagePreview
-              reset={() => control._reset({ images: [] })}
+              reset={() => resetField("images")}
               images={images}
               setImages={setImages}
               width="96px"
@@ -217,6 +218,7 @@ function ImagePreview({
           >
             {!isThumnail && (
               <Button
+                type="button"
                 title="remove"
                 size={"icon"}
                 variant={"destructive"}

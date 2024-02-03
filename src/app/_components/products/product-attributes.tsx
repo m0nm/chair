@@ -60,7 +60,9 @@ export const ProductAttributes = ({ control }: IProps) => {
                       <TagInput
                         id="attributes"
                         defaultTags={field.value}
-                        onTagsChange={(tags) => field.onChange(tags)}
+                        onTagsChange={(tags) => {
+                          field.onChange(tags);
+                        }}
                         placeholder="Type attribute value then press Enter"
                       />
                     </FormControl>

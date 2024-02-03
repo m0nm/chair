@@ -15,31 +15,27 @@ cloudinary.v2.config({
 const parser = new DatauriParser();
 
 export async function uploadFile(file: File, folder: string) {
-  const [name, extension] = await fileNameAndExt(file.name);
-  const buffer = Buffer.from(await file.arrayBuffer());
+  try {
+    const [name, extension] = await fileNameAndExt(file.name);
+    const buffer = Buffer.from(await file.arrayBuffer());
 
-  if (process.env.NODE_ENV === "development" && file) {
-    console.log("__dirname: ", __dirname);
-    try {
+    if (process.env.NODE_ENV === "development" && file) {
       const fileName = `${name}-${Date.now()}`;
 
-      if (!existsSync(__dirname + `/../../../../../public/${folder}`)) {
-        await mkdir(__dirname + `/../../../../../public/${folder}`);
+      const dir = __dirname + `/../../../../../../public`;
+      if (!existsSync(path.join(dir, folder))) {
+        await mkdir(path.join(dir, folder));
       }
 
       const filePath = `/${folder}/${fileName}.${extension}`;
-      const dest = path.join(process.cwd(), "/public", filePath);
+      const dest = path.join(dir, filePath);
 
       writeFile(dest, buffer);
       console.info("file upload locally at: ", dest);
       return filePath;
-    } catch (error) {
-      console.error(error);
     }
-  }
 
-  if (process.env.NODE_ENV === "production" && file) {
-    try {
+    if (process.env.NODE_ENV === "production" && file) {
       const { base64 } = parser.format(extension as string, buffer);
       const file = `data:image/${extension};base64,${base64}`;
 
@@ -48,9 +44,10 @@ export async function uploadFile(file: File, folder: string) {
       });
       console.info("file upload to cloudinary at: ", secure_url);
       return secure_url;
-    } catch (error) {
-      console.error(error);
     }
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 

@@ -10,8 +10,7 @@ export const ProductFormSchema = z.object({
 
   price: z
     .number({ required_error: "Product price is required" })
-    .positive()
-    .or(z.string())
+    .or(z.string().min(1, "Product price is required"))
     .pipe(
       z.coerce
         .number({ required_error: "Product price is required" })
@@ -19,7 +18,6 @@ export const ProductFormSchema = z.object({
     ),
   salePrice: z
     .number()
-    .positive()
     .or(z.string())
     .pipe(
       z.coerce
@@ -51,8 +49,9 @@ export const ProductFormSchema = z.object({
   attributes: z
     .array(
       z.object({
+        id: z.string().optional().nullable(),
         label: z.string().min(1, "Attribute name is required"),
-        value: z.array(z.string()).min(1, "At least one value is required"),
+        value: z.string().array().nonempty("At least one value is required"),
       }),
     )
     .optional()
