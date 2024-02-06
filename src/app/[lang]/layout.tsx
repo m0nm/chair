@@ -2,7 +2,8 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { Inter, Almarai } from "next/font/google";
 import { ThemeProvider } from "../_providers/theme-provider";
-import { cn } from "../_lib/utils";
+import { cn, dictMatcher } from "../_lib/utils";
+import { dict } from "../_config/i18n/footer-dict";
 import { Toaster } from "../_components/ui/sonner";
 import { Sidebar } from "../_components/sidebar";
 import { Navbar } from "../_components/navbar";
@@ -40,6 +41,8 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { lang: string };
 }) {
+  const { t } = dictMatcher(dict, params.lang as "en");
+
   return (
     <html lang={params.lang ?? "en"} dir={params.lang == "ar" ? "rtl" : "ltr"}>
       <body
@@ -60,7 +63,7 @@ export default function RootLayout({
             <Navbar />
             <main className="mx-auto px-8 pt-16">
               {children}
-              <Footer />
+              <Footer t={t} />
             </main>
           </div>
         </ThemeProvider>

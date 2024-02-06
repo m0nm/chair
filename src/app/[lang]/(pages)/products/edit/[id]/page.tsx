@@ -2,12 +2,16 @@ import { db } from "@/app/_lib/prisma";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/app/_components/page-header";
 import { EditProductForm } from "@/app/_components/products/edit-product-form";
+import { dictMatcher } from "@/app/_lib/utils";
+import { edit_product_page_dict as dict } from "@/app/_config/i18n/products-dict";
 
 export default async function EditProductPage({
   params,
 }: {
-  params: { id: string };
+  params: { id: string; lang: string };
 }) {
+  const { t } = dictMatcher(dict, params.lang as "en");
+
   const product = await db.product.findUnique({
     where: { id: params.id },
     include: { category: true, attributes: true },
@@ -27,7 +31,7 @@ export default async function EditProductPage({
 
   return (
     <div>
-      <PageHeader header="Edit Product" />
+      <PageHeader header={t("pageHeader")} />
 
       {/* @ts-ignore */}
       <EditProductForm productId={params.id} defaultValues={defaultValues} />

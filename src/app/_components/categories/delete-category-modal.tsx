@@ -1,7 +1,9 @@
 "use client";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { BASE_URL } from "@/app/_config/base-url";
-import { throwError } from "@/app/_lib/utils";
+import { dictMatcher, throwError } from "@/app/_lib/utils";
+import { delete_category_modal_dict as dict } from "@/app/_config/i18n/categories-dict";
 import { TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/app/_components/ui/button";
@@ -30,6 +32,9 @@ async function deleteCategory(id: string) {
 }
 
 export const DeleteCategoryModal = ({ id }: { id: string }) => {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en" | "ar");
+
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -62,20 +67,19 @@ export const DeleteCategoryModal = ({ id }: { id: string }) => {
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        <AlertDialogTitle>Delete Category</AlertDialogTitle>
-        <AlertDialogDescription>
-          Are you sure you want to delete this category? This action cannot be
-          undone
-        </AlertDialogDescription>
+        <AlertDialogTitle>{t("header")}</AlertDialogTitle>
+        <AlertDialogDescription>{t("description")}</AlertDialogDescription>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>ِCancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>
+            {t("cancelButton")}
+          </AlertDialogCancel>
           <Button
             type="button"
             variant={"destructive"}
             disabled={isLoading}
             onClick={onClick}
           >
-            Delete
+            {t("submitButton")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

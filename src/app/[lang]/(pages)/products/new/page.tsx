@@ -1,6 +1,9 @@
 "use client";
+
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { dictMatcher } from "@/app/_lib/utils";
+import { new_product_page_dict as dict } from "@/app/_config/i18n/products-dict";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -58,7 +61,13 @@ async function createProduct(data: FormData) {
   });
 }
 
-export default function NewProductPage() {
+export default function NewProductPage({
+  params,
+}: {
+  params: { lang: string };
+}) {
+  const { t } = dictMatcher(dict, params.lang as "en");
+
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -106,7 +115,7 @@ export default function NewProductPage() {
 
   return (
     <div>
-      <PageHeader header="New Product" />
+      <PageHeader header={t("pageHeader")} />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -116,9 +125,11 @@ export default function NewProductPage() {
                 {/* product information */}
                 <Card>
                   <CardHeader className="mb-6">
-                    <h5 className="text-lg font-medium">Basic information</h5>
+                    <h5 className="text-lg font-medium">
+                      {t("productInformation").header}
+                    </h5>
                     <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                      Section to config basic product information
+                      {t("productInformation").description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="flex flex-col gap-6">
@@ -130,7 +141,7 @@ export default function NewProductPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel htmlFor="product-name">
-                              Product Name
+                              {t("productInformation").productNameLabel}
                             </FormLabel>
                             <FormMessage />
 
@@ -153,7 +164,7 @@ export default function NewProductPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel htmlFor="product-desc">
-                              Description
+                              {t("productInformation").productDescriptionLabel}
                             </FormLabel>
                             <FormMessage />
                             <FormControl>
@@ -170,10 +181,10 @@ export default function NewProductPage() {
                 <Card className="mt-8">
                   <CardHeader className="mb-6">
                     <h5 className="text-lg font-medium">
-                      Pricing And Quanitity
+                      {t("productPricing").header}
                     </h5>
                     <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                      Section to config product sales information
+                      {t("productPricing").description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="mb-4 grid grid-cols-4 gap-12">
@@ -186,7 +197,7 @@ export default function NewProductPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor="product-price">
-                                Price
+                                {t("productPricing").priceLabel}
                               </FormLabel>
                               <FormMessage />
                               <FormControl>
@@ -219,7 +230,7 @@ export default function NewProductPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor="product-sale">
-                                Sale Price{" "}
+                                {t("productPricing").salePriceLabel}{" "}
                                 <span className="text-xs">(optional)</span>
                               </FormLabel>
                               <FormMessage />
@@ -251,7 +262,10 @@ export default function NewProductPage() {
                         control={form.control}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel htmlFor="product-stock">Stock</FormLabel>
+                            <FormLabel htmlFor="product-stock">
+                              {" "}
+                              {t("productPricing").stockLabel}
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -269,9 +283,11 @@ export default function NewProductPage() {
                 {/* organization*/}
                 <Card className="mt-8">
                   <CardHeader className="mb-6">
-                    <h5 className="text-lg font-medium">Organizations</h5>
+                    <h5 className="text-lg font-medium">
+                      {t("productOrganization").header}
+                    </h5>
                     <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                      Section to config the product attribute
+                      {t("productOrganization").description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -284,7 +300,7 @@ export default function NewProductPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor="product-condition">
-                                Condition
+                                {t("productOrganization").conditionLabel}
                               </FormLabel>
                               <FormMessage />
                               <Select
@@ -320,7 +336,7 @@ export default function NewProductPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor="product-status">
-                                Status
+                                {t("productOrganization").statusLabel}
                               </FormLabel>
                               <FormMessage />
                               <Select
@@ -364,27 +380,33 @@ export default function NewProductPage() {
             <Card className="col-span-6 lg:col-span-2">
               <CardHeader className="mb-3">
                 <CardTitle className="text-lg font-medium">
-                  Product images
+                  {t("productImages").header}
                 </CardTitle>
                 <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                  Add or change image for the product
+                  {t("productImages").description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ImageUploadForm control={form.control} />
+                <ImageUploadForm
+                  control={form.control}
+                  resetField={form.resetField}
+                />
               </CardContent>
             </Card>
             {/* action buttons */}
             <div className="sticky -bottom-1 z-50 col-span-6 bg-transparent py-3 ">
               <div className="float-right flex w-fit items-center justify-end gap-2">
                 <Button
+                  type="button"
                   disabled={isLoading}
                   variant="secondary"
                   className="border dark:border-none"
                 >
-                  <Link href={"/products"}>Discard</Link>
+                  <Link href={"/products"}>{t("discardButton")}</Link>
                 </Button>
-                <Button disabled={isLoading}>Create</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {t("createButton")}
+                </Button>
               </div>
             </div>
           </div>

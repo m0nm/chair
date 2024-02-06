@@ -26,6 +26,10 @@ import { ProductCategorySelector } from "@/app/_components/products/product-cate
 import { ImageUploadForm } from "@/app/_components/products/image-upload-form";
 import { ProductAttributes } from "@/app/_components/products/product-attributes";
 
+import { useParams } from "next/navigation";
+import { dictMatcher } from "@/app/_lib/utils";
+import { edit_product_page_dict as dict } from "@/app/_config/i18n/products-dict";
+
 import {
   Select,
   SelectContent,
@@ -68,6 +72,9 @@ export function EditProductForm({
   defaultValues: DefaultValues<z.infer<typeof formSchema>>;
   productId: string;
 }) {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en");
+
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -77,8 +84,6 @@ export function EditProductForm({
   const { dirtyFields, isDirty } = form.formState;
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log("data: ", data);
-    console.log("dirtyFields: ", dirtyFields);
     if (!isDirty) {
       toast.info("Nothing to update");
       return;
@@ -141,9 +146,11 @@ export function EditProductForm({
               {/* product information */}
               <Card>
                 <CardHeader className="mb-6">
-                  <h5 className="text-lg font-medium">Basic information</h5>
+                  <h5 className="text-lg font-medium">
+                    {t("productInformation").header}
+                  </h5>
                   <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                    Section to config basic product information
+                    {t("productInformation").description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-6">
@@ -155,7 +162,7 @@ export function EditProductForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel htmlFor="product-name">
-                            Product Name
+                            {t("productInformation").productNameLabel}
                           </FormLabel>
                           <FormMessage />
 
@@ -178,7 +185,7 @@ export function EditProductForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel htmlFor="product-desc">
-                            Description
+                            {t("productInformation").productDescriptionLabel}
                           </FormLabel>
                           <FormMessage />
                           <FormControl>
@@ -194,9 +201,11 @@ export function EditProductForm({
               {/* product pricing and stock */}
               <Card className="mt-8">
                 <CardHeader className="mb-6">
-                  <h5 className="text-lg font-medium">Pricing And Quanitity</h5>
+                  <h5 className="text-lg font-medium">
+                    {t("productPricing").header}
+                  </h5>
                   <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                    Section to config product sales information
+                    {t("productPricing").description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="mb-4 grid grid-cols-4 gap-12">
@@ -208,11 +217,14 @@ export function EditProductForm({
                         control={form.control}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Price</FormLabel>
+                            <FormLabel htmlFor="product-price">
+                              {t("productPricing").priceLabel}
+                            </FormLabel>
                             <FormMessage />
                             <FormControl>
                               <Input
                                 {...field}
+                                id="product-price"
                                 placeholder="100"
                                 type={"number"}
                                 min={0}
@@ -238,14 +250,15 @@ export function EditProductForm({
                         control={form.control}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>
-                              Sale Price{" "}
+                            <FormLabel htmlFor="product-sale">
+                              {t("productPricing").salePriceLabel}{" "}
                               <span className="text-xs">(optional)</span>
                             </FormLabel>
                             <FormMessage />
                             <FormControl>
                               <Input
                                 {...field}
+                                id="product-sale"
                                 placeholder="100"
                                 type={"number"}
                                 min={0}
@@ -270,10 +283,17 @@ export function EditProductForm({
                       control={form.control}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Stock</FormLabel>
-                          <FormMessage />
+                          <FormLabel htmlFor="product-stock">
+                            {" "}
+                            {t("productPricing").stockLabel}
+                          </FormLabel>
                           <FormControl>
-                            <Input {...field} type={"number"} min={0} />
+                            <Input
+                              {...field}
+                              id="product-stock"
+                              type={"number"}
+                              min={0}
+                            />
                           </FormControl>
                         </FormItem>
                       )}
@@ -284,9 +304,11 @@ export function EditProductForm({
               {/* organization*/}
               <Card className="mt-8">
                 <CardHeader className="mb-6">
-                  <h5 className="text-lg font-medium">Organizations</h5>
+                  <h5 className="text-lg font-medium">
+                    {t("productOrganization").header}
+                  </h5>
                   <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                    Section to config the product attribute
+                    {t("productOrganization").description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -299,7 +321,7 @@ export function EditProductForm({
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel htmlFor="product-condition">
-                              Condition
+                              {t("productOrganization").conditionLabel}
                             </FormLabel>
                             <FormMessage />
                             <Select
@@ -333,7 +355,7 @@ export function EditProductForm({
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel htmlFor="product-status">
-                              Status
+                              {t("productOrganization").statusLabel}
                             </FormLabel>
                             <FormMessage />
                             <Select
@@ -377,10 +399,10 @@ export function EditProductForm({
           <Card className="col-span-6 lg:col-span-2">
             <CardHeader className="mb-3">
               <CardTitle className="text-lg font-medium">
-                Product images
+                {t("productImages").header}
               </CardTitle>
               <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-                Add or change image for the product
+                {t("productImages").description}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -401,10 +423,10 @@ export function EditProductForm({
                 variant="secondary"
                 className="border dark:border-none"
               >
-                <Link href={"/products"}>Discard</Link>
+                <Link href={"/products"}>{t("discardButton")}</Link>
               </Button>
               <Button type="submit" disabled={isLoading}>
-                Update
+                {t("editButton")}
               </Button>
             </div>
           </div>

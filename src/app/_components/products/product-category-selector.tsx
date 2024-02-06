@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { Control } from "react-hook-form";
 import { BASE_URL } from "@/app/_config/base-url";
+import { dictMatcher } from "@/app/_lib/utils";
+import { new_product_page_dict as dict } from "@/app/_config/i18n/products-dict";
+
+import { AutoComplete, Option } from "../ui/autocomplete";
 import {
   FormControl,
   FormField,
@@ -9,13 +14,15 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { AutoComplete, Option } from "../ui/autocomplete";
 
 export const ProductCategorySelector = ({
   control,
 }: {
   control: Control<any>;
 }) => {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en" | "ar");
+
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState<Option[]>([]);
 
@@ -42,16 +49,18 @@ export const ProductCategorySelector = ({
         control={control}
         render={({ field }) => (
           <FormItem>
-            <FormLabel htmlFor="product-category">Category</FormLabel>
+            <FormLabel htmlFor="product-category">
+              {t("productOrganization").categoryLabel}
+            </FormLabel>
 
             <FormControl>
               <AutoComplete
                 options={categories}
                 onValueChange={field.onChange}
                 value={field.value}
-                placeholder="Type category name"
-                emptyMessage="No categories found"
                 isLoading={isLoading}
+                placeholder={t("productOrganization").categoryInputPlaceholder}
+                emptyMessage={t("productOrganization").categoryEmptyMessage}
               />
             </FormControl>
             <FormMessage />

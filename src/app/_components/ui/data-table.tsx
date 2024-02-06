@@ -33,6 +33,15 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+const dict = {
+  en: {
+    search: "Search...",
+  },
+  ar: {
+    search: "ابحث...",
+  },
+};
+
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value);
@@ -79,7 +88,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       {/* searchbar */}
       <div className="float-right flex items-center py-4">
         <Input
-          placeholder={lang == "ar" ? "ابحث..." : "Search..."}
+          placeholder={dict[lang as "en"].search}
           className="max-w-sm"
           value={globalFilter ?? ""}
           onChange={(e) => {

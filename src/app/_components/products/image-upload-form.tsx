@@ -1,5 +1,7 @@
 "use client";
+
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -8,6 +10,8 @@ import { Button } from "../ui/button";
 
 import type { Control, UseFormResetField } from "react-hook-form";
 import { FormItem, FormField, FormControl, FormLabel } from "../ui/form";
+import { dictMatcher } from "@/app/_lib/utils";
+import { new_product_page_dict as dict } from "@/app/_config/i18n/products-dict";
 
 type Iprops = {
   defaultThumnbail?: string;
@@ -22,6 +26,9 @@ export const ImageUploadForm = ({
   defaultThumnbail,
   resetField,
 }: Iprops) => {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en" | "ar");
+
   const [thumbnail, setThumbnail] = useState<string[]>(
     defaultThumnbail ? [defaultThumnbail] : [],
   );
@@ -57,7 +64,7 @@ export const ImageUploadForm = ({
                   htmlFor="thumbnail"
                   className="h-32 w-full cursor-pointer"
                 >
-                  <div className=" mb-2 grid place-content-center justify-center  ">
+                  <div className=" mb-2 grid place-content-center justify-center">
                     <div className="mx-auto grid h-12 w-12 place-content-center rounded-md bg-transparent">
                       <UploadIcon
                         className="text-md font-bold "
@@ -66,7 +73,7 @@ export const ImageUploadForm = ({
                     </div>
 
                     <h4 className="text-center text-sm font-medium">
-                      Upload Product Thumbnail
+                      {t("productImages").thumbnailLabel}
                     </h4>
                   </div>
                 </FormLabel>
@@ -106,7 +113,7 @@ export const ImageUploadForm = ({
           <div className="mt-2 grid place-content-center border-4 border-dashed border-gray-300 text-xs text-gray-500 dark:border-gray-700">
             <div className="grid h-[250px] w-[250px] place-content-center">
               <span className="pointer-events-none select-none">
-                Thumbnail preview
+                {t("productImages").thumbnailPreview}
               </span>
             </div>
           </div>
@@ -129,7 +136,7 @@ export const ImageUploadForm = ({
                     />
                   </div>
                   <h5 className="mt-2 text-center text-xs font-medium text-zinc-800 dark:text-gray-50">
-                    Upload Product Images
+                    {t("productImages").imagesLabel}
                   </h5>
                 </Label>
 
@@ -172,7 +179,7 @@ export const ImageUploadForm = ({
                   className="my-2 grid h-24 w-24 place-content-center border-2 border-dashed border-gray-300 text-gray-500 dark:border-gray-700"
                 >
                   <span className="select-none text-[0.6rem]">
-                    Image preview
+                    {t("productImages").imagesPreview}
                   </span>
                 </div>
               ))}

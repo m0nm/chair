@@ -1,9 +1,14 @@
 "use client";
+import { useState } from "react";
+import { useParams } from "next/navigation";
 import { BASE_URL } from "@/app/_config/base-url";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { throwError } from "@/app/_lib/utils";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
+import { dictMatcher, throwError } from "@/app/_lib/utils";
+import { edit_category_modal_dict as dict } from "@/app/_config/i18n/categories-dict";
+
 import { EditIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/app/_components/ui/button";
@@ -26,7 +31,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string({ required_error: "Category name is required" }).min(1, {
@@ -54,6 +58,9 @@ export const EditCategoryModal = ({
   defaultName: string;
   id: string;
 }) => {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -94,7 +101,7 @@ export const EditCategoryModal = ({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Category</DialogTitle>
+          <DialogTitle>{t("header")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
@@ -104,7 +111,7 @@ export const EditCategoryModal = ({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>New Name</FormLabel>
+                    <FormLabel>{t("inputLabel")}</FormLabel>
                     <FormControl>
                       <Input {...field} id="name" />
                     </FormControl>
@@ -115,12 +122,16 @@ export const EditCategoryModal = ({
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant={"secondary"} disabled={isLoading}>
-                  ِCancel
+                <Button
+                  type="button"
+                  variant={"secondary"}
+                  disabled={isLoading}
+                >
+                  {t("cancelButton")}
                 </Button>
               </DialogClose>
               <Button type="submit" disabled={isLoading}>
-                Edit
+                {t("submitButton")}
               </Button>
             </DialogFooter>
           </form>

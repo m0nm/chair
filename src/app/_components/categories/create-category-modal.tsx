@@ -1,9 +1,13 @@
 "use client";
+import { useState } from "react";
+import { useParams } from "next/navigation";
 import { BASE_URL } from "@/app/_config/base-url";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { throwError } from "@/app/_lib/utils";
+import { dictMatcher, throwError } from "@/app/_lib/utils";
+import { create_category_modal_dict as dict } from "@/app/_config/i18n/categories-dict";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
 import { PlusIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/app/_components/ui/button";
@@ -26,7 +30,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string({ required_error: "Category name is required" }).min(1, {
@@ -48,6 +51,9 @@ async function createCategory(name: string) {
 }
 
 export const CreateCategoryModal = () => {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en" | "ar");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -81,13 +87,13 @@ export const CreateCategoryModal = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button>
-          <PlusIcon size={16} className="mr-2" />
-          New Category
+          <PlusIcon size={16} className="ltr:mr-2 rtl:ml-2" />
+          {t("triggerButton")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Category</DialogTitle>
+          <DialogTitle>{t("header")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
@@ -97,12 +103,12 @@ export const CreateCategoryModal = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>{t("inputLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         id="name"
-                        placeholder="Enter category name..."
+                        placeholder={t("inputPleaceholder")}
                       />
                     </FormControl>
                     <FormMessage />
@@ -113,11 +119,11 @@ export const CreateCategoryModal = () => {
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant={"secondary"} disabled={isLoading}>
-                  ِCancel
+                  {t("cancelButton")}
                 </Button>
               </DialogClose>
               <Button type="submit" disabled={isLoading}>
-                Create
+                {t("submitButton")}
               </Button>
             </DialogFooter>
           </form>

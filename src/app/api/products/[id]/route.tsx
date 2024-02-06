@@ -24,7 +24,6 @@ export async function GET(
 export async function PUT(req: NextRequest, ctx: { params: { id: string } }) {
   try {
     const formData = await req.formData();
-    console.log("formData: ", formData);
     let productData: Prisma.ProductUpdateInput = {};
 
     // append form data

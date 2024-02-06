@@ -1,5 +1,13 @@
 "use client";
+import { useParams } from "next/navigation";
 import { Control, useFieldArray } from "react-hook-form";
+import { dictMatcher } from "@/app/_lib/utils";
+import { new_product_page_dict as dict } from "@/app/_config/i18n/products-dict";
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { TagInput } from "../ui/tag-input";
+import { PlusIcon, TrashIcon } from "lucide-react";
 import {
   FormControl,
   FormField,
@@ -7,16 +15,15 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { TagInput } from "../ui/tag-input";
-import { PlusIcon, TrashIcon } from "lucide-react";
 
 type IProps = {
   control: Control<any>;
 };
 
 export const ProductAttributes = ({ control }: IProps) => {
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en" | "ar");
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "attributes",
@@ -26,7 +33,8 @@ export const ProductAttributes = ({ control }: IProps) => {
     <div>
       <div>
         <FormLabel htmlFor="attributes">
-          Product Attributes <span className="text-xs">(optional)</span>
+          {t("productOrganization").productAttributesLabel}
+          <span className="text-xs">(optional)</span>
         </FormLabel>
         <div className="mt-2 space-y-2">
           {fields.map((field, index) => (
@@ -44,7 +52,10 @@ export const ProductAttributes = ({ control }: IProps) => {
                         {...field}
                         id="attributes"
                         className="h-12"
-                        placeholder="Type attribute name"
+                        placeholder={
+                          t("productOrganization")
+                            .productAttributesLabelInputPlaceholder
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -63,7 +74,10 @@ export const ProductAttributes = ({ control }: IProps) => {
                         onTagsChange={(tags) => {
                           field.onChange(tags);
                         }}
-                        placeholder="Type attribute value then press Enter"
+                        placeholder={
+                          t("productOrganization")
+                            .productAttributesValueInputPlaceholder
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -90,7 +104,7 @@ export const ProductAttributes = ({ control }: IProps) => {
           onClick={() => append({ label: "", value: [] })}
         >
           <PlusIcon size={16} />
-          Add new attribute field
+          {t("productOrganization").newAttributeButton}
         </Button>
       </div>
     </div>
