@@ -8,7 +8,6 @@ export function middleware(request: NextRequest) {
     if (!pathname.includes("/ar")) {
       const url = request.nextUrl.clone();
       url.pathname = "/en" + pathname;
-      console.log("url: ", url);
       return NextResponse.redirect(url);
     }
   }

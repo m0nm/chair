@@ -55,3 +55,25 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Coupon {
+  id             String       @id @default(uuid())
+  name           String       @unique
+  amount         Float
+  startingDate   DateTime     @default(now())
+  expirationDate DateTime
+  type           CouponType
+  status         CouponStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CouponType {
+  FIXED
+  PERCENT
+}
+enum CouponStatus {
+  ACTIVE
+  INACTIVE
+}

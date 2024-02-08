@@ -36,9 +36,11 @@ interface DataTableProps<TData, TValue> {
 const dict = {
   en: {
     search: "Search...",
+    noResult: "No result",
   },
   ar: {
     search: "ابحث...",
+    noResult: "لا توجد نتائج",
   },
 };
 
@@ -140,7 +142,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {dict[lang as "en"].noResult}
                 </TableCell>
               </TableRow>
             )}

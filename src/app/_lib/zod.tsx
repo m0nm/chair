@@ -57,3 +57,30 @@ export const ProductFormSchema = z.object({
     .optional()
     .nullable(),
 });
+
+export const CouponFormSchema = z
+  .object({
+    name: z
+      .string({ required_error: "Coupon name is required" })
+      .min(1, "Coupon name is required"),
+    amount: z
+      .number({ required_error: "Coupon amount is required" })
+      .or(z.string().min(1, "Coupon amount is required"))
+      .pipe(z.coerce.number({ required_error: "Coupon amount is required" })),
+    type: z.enum(["FIXED", "PERCENT"]).default("FIXED"),
+    status: z.enum(["ACTIVE", "INACTIVE"]).default("ACTIVE"),
+    startingDate: z.coerce
+      .date()
+      .refine((data) => data.getDate() >= new Date().getDate(), {
+        message: "Start date must be now or in the future",
+      })
+      .default(new Date()),
+
+    expirationDate: z.date({
+      required_error: "Coupon expiration date is required",
+    }),
+  })
+  .refine((d) => d.expirationDate >= d.startingDate, {
+    message: "Expiration date must be after the starting date.",
+    path: ["expirationDate"],
+  });
