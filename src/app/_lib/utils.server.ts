@@ -24,7 +24,7 @@ export async function uploadFile(file: File, folder: string) {
 
       const dir = __dirname + `/../../../../../../public`;
       if (!existsSync(path.join(dir, folder))) {
-        await mkdir(path.join(dir, folder));
+        await mkdir(path.join(dir, folder), { recursive: true });
       }
 
       const filePath = `/${folder}/${fileName}.${extension}`;

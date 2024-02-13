@@ -26,7 +26,7 @@ export function ProductsLayout() {
       const params = new URLSearchParams(searchParams);
       params.set(name, encodeURIComponent(value));
 
-      router.push(`?${params.toString()}`);
+      router.replace(`?${params.toString()}`);
     },
     [searchParams, router],
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import productImage from "@/../public/product.jpg";
+import productImage from "@/../public/wooden-chair.jpg";
 
 import {
   Table,

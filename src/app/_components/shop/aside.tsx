@@ -1,12 +1,16 @@
 "use client";
-
-import Link from "next/link";
 import { useCallback, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Category } from "@prisma/client";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
 import { cn, toCurrency } from "../../_lib/utils";
+
+const conditions = [
+  { label: "HOT", value: "hot" },
+  { label: "NEW", value: "new" },
+  { label: "ON SALE", value: "on_sale" },
+];
 
 export const Aside = ({
   categories,
@@ -24,11 +28,16 @@ export const Aside = ({
       Object.entries(param).forEach(([key, value]) => {
         params.set(key, encodeURIComponent(value));
       });
-
-      return params.toString();
+      router.replace(`?${params.toString()}`);
     },
-    [searchParams],
+    [searchParams, router],
   );
+
+  const deleteCategorySearchParam = useCallback(() => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("category");
+    router.replace(`?${params.toString()}`);
+  }, [searchParams, router]);
 
   return (
     <div className="sticky w-full space-y-9 px-4">
@@ -40,10 +49,9 @@ export const Aside = ({
             <Button
               variant={"link"}
               className="hover:text-primary-500 hover:dark:text-primary-400 text-gray-600 !no-underline dark:text-gray-100"
+              onClick={() => deleteCategorySearchParam()}
             >
-              <Link href="/shop" replace>
-                All
-              </Link>
+              All
             </Button>
           </li>
 
@@ -54,15 +62,11 @@ export const Aside = ({
                 className={cn(
                   "hover:text-primary-600 hover:dark:text-primary-400 text-gray-600 !no-underline dark:text-gray-100",
                   searchParams.get("category") === c.name &&
-                    "!text-primary-600 dark:!text-primary-400",
+                    "!text-black dark:!text-primary",
                 )}
+                onClick={() => createSearchParams({ category: c.name })}
               >
-                <Link
-                  replace
-                  href={`/shop?${createSearchParams({ category: c.name })}`}
-                >
-                  {c.name} ({c._count.products})
-                </Link>
+                {c.name} ({c._count.products})
               </Button>
             </li>
           ))}
@@ -73,22 +77,18 @@ export const Aside = ({
       <div>
         <h4 className="mb-4 text-lg font-medium">Condition</h4>
         <ul className="space-y-2">
-          {["HOT", "NEW", "ON SALE"].map((c, i) => (
+          {conditions.map((c, i) => (
             <li key={i}>
               <Button
                 variant={"link"}
                 className={cn(
                   "hover:text-primary-600 hover:dark:text-primary-400 text-gray-600 !no-underline dark:text-gray-100",
-                  searchParams.get("condition") === c &&
-                    "!text-primary-600 dark:!text-primary-400",
+                  searchParams.get("condition") === c.value &&
+                    "!text-black dark:!text-primary",
                 )}
+                onClick={() => createSearchParams({ condition: c.value })}
               >
-                <Link
-                  replace
-                  href={`/shop?${createSearchParams({ condition: c })}`}
-                >
-                  {c}
-                </Link>
+                {c.label}
               </Button>
             </li>
           ))}
@@ -119,12 +119,10 @@ export const Aside = ({
           variant="outline"
           className="float-right mt-3"
           onClick={() =>
-            router.replace(
-              `/shop?${createSearchParams({
-                price_start: range[0].toString(),
-                price_end: range[1].toString(),
-              })}`,
-            )
+            createSearchParams({
+              price_start: range[0].toString(),
+              price_end: range[1].toString(),
+            })
           }
         >
           Apply Price Range

@@ -67,7 +67,7 @@ export function ProductCard({
               </Badge>
             ) : (
               product.condition === "NEW" && (
-                <Badge className="!borded-0 w-fit scale-95 bg-blue-500 outline-none hover:bg-blue-400">
+                <Badge className="!borded-0 w-fit scale-95 bg-blue-500 text-white outline-none hover:bg-blue-400">
                   New
                 </Badge>
               )
@@ -85,23 +85,17 @@ export function ProductCard({
           <div className="absolute right-4 top-4 w-fit">
             <div
               title="Add to wishlist"
-              className="hover:border-primary-400 hover:!text-primary-400 mb-2 grid h-5 w-5 translate-x-10 cursor-pointer place-content-center rounded-full border-2 border-transparent bg-white p-4 opacity-0 transition-all delay-75 duration-300 group-hover:translate-x-0 group-hover:opacity-100 dark:text-black"
+              className="mb-2 grid h-5 w-5 translate-x-10 cursor-pointer place-content-center rounded-full border border-transparent bg-white p-4 opacity-0 transition-all delay-75 duration-300 hover:border-red-500 hover:!text-red-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-black"
             >
               <HeartIcon size={20} />
             </div>
 
             <div
               title="view product"
-              className="hover:border-primary-400 hover:!text-primary-400 mb-2 grid h-5 w-5 translate-x-10 cursor-pointer place-content-center rounded-full border-2 border-transparent bg-white p-4 opacity-0 transition-all delay-200 duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+              className="mb-2 grid h-5 w-5 translate-x-10 cursor-pointer place-content-center rounded-full border border-transparent bg-white p-4 opacity-0 transition-all delay-200 duration-300 hover:border-blue-500 hover:!text-blue-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-black"
+              onClick={() => setOpen(true)}
             >
-              <Button
-                className="rounded-full text-black dark:bg-foreground dark:text-background"
-                variant={"outline"}
-                size={"icon"}
-                onClick={() => setOpen(true)}
-              >
-                <EyeIcon size={20} />
-              </Button>
+              <EyeIcon size={20} />
             </div>
           </div>
 

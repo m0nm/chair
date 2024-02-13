@@ -1,6 +1,6 @@
 "use client";
 import { useCallback } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   Select,
@@ -13,11 +13,12 @@ import {
 const ITEMS = [
   { label: "Default", value: "default" },
   { label: "Latest", value: "latest" },
-  { label: "Price (Low to High)", value: "price-low" },
-  { label: "Price (High to Low)", value: "price-high" },
+  { label: "Price (Low to High)", value: "price_asc" },
+  { label: "Price (High to Low)", value: "price_desc" },
 ];
 
 export function ProductsSort() {
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const createSearchParams = useCallback(
@@ -25,17 +26,19 @@ export function ProductsSort() {
       // @ts-ignore
       const params = new URLSearchParams(searchParams);
       params.set(name, encodeURIComponent(value));
-
-      return params.toString();
+      router.replace(`?${params.toString()}`);
     },
-    [searchParams],
+    [searchParams, router],
   );
 
   return (
-    <Select defaultValue="default">
+    <Select
+      defaultValue="default"
+      onValueChange={(value) => createSearchParams("sort_by", value)}
+    >
       <SelectTrigger className="w-52">
         <span className="w-fit whitespace-nowrap font-semibold">Sort By:</span>
-        <SelectValue defaultValue={"default"} />
+        <SelectValue />
       </SelectTrigger>
 
       <SelectContent className="w-56">
@@ -44,7 +47,6 @@ export function ProductsSort() {
             className="!justify-start truncate !text-left"
             key={item.label}
             value={item.value}
-            onClick={() => createSearchParams("sort_by", item.value)}
           >
             {item.label}
           </SelectItem>
