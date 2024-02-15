@@ -11,6 +11,10 @@ import { MenuIcon } from "lucide-react";
 import { Prisma } from "@prisma/client";
 import { ProductsPagination } from "@/app/_components/shop/products-pagination";
 
+export const metadata = {
+  title: "Chair | Shop",
+};
+
 type SearchParams = {
   layout?: string;
   sort_by?: "default" | "price_asc" | "price_desc" | "latest";

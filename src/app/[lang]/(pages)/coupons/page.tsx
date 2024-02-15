@@ -7,6 +7,10 @@ import { PlusIcon } from "lucide-react";
 import { dict } from "@/app/_config/i18n/coupons-dict";
 import { dictMatcher } from "@/app/_lib/utils";
 
+export const metadata = {
+  title: "Chair | View Coupons",
+};
+
 const CouponsPage = async ({ params }: { params: { lang: string } }) => {
   const data = await db.coupon.findMany();
   const { t } = dictMatcher(dict, params.lang as "en");

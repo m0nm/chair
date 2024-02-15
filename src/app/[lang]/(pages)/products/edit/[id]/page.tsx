@@ -5,6 +5,10 @@ import { EditProductForm } from "@/app/_components/products/edit-product-form";
 import { dictMatcher } from "@/app/_lib/utils";
 import { edit_product_page_dict as dict } from "@/app/_config/i18n/products-dict";
 
+export const metadata = {
+  title: "Chair | Edit Product",
+};
+
 export default async function EditProductPage({
   params,
 }: {

@@ -3,6 +3,10 @@ import { PageHeader } from "@/app/_components/page-header";
 import { dict } from "@/app/_config/i18n/customers-dict";
 import { dictMatcher } from "@/app/_lib/utils";
 
+export const metadata = {
+  title: "Chair | View Customers",
+};
+
 export default function CustomersPage({
   params,
 }: {

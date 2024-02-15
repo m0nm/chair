@@ -7,6 +7,10 @@ import { dictMatcher } from "@/app/_lib/utils";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Chair | View Products",
+};
+
 export default async function ProductsPage({
   params,
 }: {

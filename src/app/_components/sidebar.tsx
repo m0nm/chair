@@ -119,10 +119,10 @@ const ITEMS = [
   {
     label: "auth",
     icon: UsersIcon,
-    link: "/login",
+    link: "/auth/login",
     subItems: [
-      { label: "login", icon: LogInIcon, link: "/login" },
-      { label: "signUp", icon: UserPlusIcon, link: "/sign-up" },
+      { label: "login", icon: LogInIcon, link: "/auth/login" },
+      { label: "signUp", icon: UserPlusIcon, link: "/auth/sign-up" },
     ],
   },
 ];

@@ -5,6 +5,10 @@ import { CategoriesTable } from "@/app/_components/categories/categories-table";
 import { CreateCategoryModal } from "@/app/_components/categories/create-category-modal";
 import { PageHeader } from "@/app/_components/page-header";
 
+export const metadata = {
+  title: "Chair | Categories",
+};
+
 async function CategoriesPage({ params }: { params: { lang: string } }) {
   const { t } = dictMatcher(dict, params.lang as "en");
 

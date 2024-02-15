@@ -44,6 +44,10 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 
+export const metadata = {
+  title: "Chair | Add New Product",
+};
+
 const formSchema = ProductFormSchema;
 const defaultValues = {
   name: "",

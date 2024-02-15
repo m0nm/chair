@@ -61,10 +61,8 @@ export default function RootLayout({
           <Sidebar />
           <div className="flex-1">
             <Navbar />
-            <main className="mx-auto px-8 pt-16">
-              {children}
-              <Footer t={t} />
-            </main>
+            <main className="mx-auto min-h-[80vh] px-8 pt-16">{children}</main>
+            <Footer t={t} />
           </div>
         </ThemeProvider>
       </body>

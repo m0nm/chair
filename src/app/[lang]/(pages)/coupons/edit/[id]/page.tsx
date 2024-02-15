@@ -7,6 +7,10 @@ import { CouponForm } from "@/app/_components/coupons/coupon-form";
 import { dict } from "@/app/_config/i18n/coupons-dict";
 import { dictMatcher } from "@/app/_lib/utils";
 
+export const metadata = {
+  title: "Chair | Edit Coupon",
+};
+
 export default async function EditCouponPage({
   params,
 }: {
