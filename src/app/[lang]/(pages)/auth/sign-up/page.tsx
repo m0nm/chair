@@ -24,10 +24,6 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 
-export const metadata = {
-  title: "Chair | Sign Up",
-};
-
 const formSchema = z
   .object({
     email: z

@@ -110,7 +110,6 @@ const ITEMS = [
         label: "shop",
         link: "/shop",
       },
-      { label: "profile", link: "/profile" },
       { label: "cart", link: "/cart" },
       { label: "error404", link: "/404" },
       { label: "error500", link: "/500" },
@@ -141,6 +140,7 @@ export const Sidebar = () => {
   return (
     <aside
       className={cn(
+        isTabletOrMobile && "!absolute",
         expanded ? "w-56" : "!w-0 !p-0",
         "sticky inset-0 z-50 flex h-screen w-56 flex-col border bg-background pr-4 pt-4 font-normal transition-all duration-200 ease-in-out dark:border-0",
       )}

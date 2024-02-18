@@ -1,10 +1,11 @@
 "use client";
 import { useCallback, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Category } from "@prisma/client";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
-import { cn, toCurrency } from "../../_lib/utils";
+import { cn, dictMatcher, toCurrency } from "../../_lib/utils";
+import { dict } from "@/app/_config/i18n/shop-dict";
 
 const conditions = [
   { label: "HOT", value: "hot" },
@@ -20,6 +21,9 @@ export const Aside = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [range, setRange] = useState([20, 800]);
+
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en");
 
   const createSearchParams = useCallback(
     (param: { [key: string]: string }) => {
@@ -43,7 +47,7 @@ export const Aside = ({
     <div className="sticky w-full space-y-9 px-4">
       {/* categories */}
       <div>
-        <h4 className="mb-4 text-lg font-medium">Categories</h4>
+        <h4 className="mb-4 text-lg font-medium">{t("categories")}</h4>
         <ul className="space-y-2">
           <li>
             <Button
@@ -75,7 +79,7 @@ export const Aside = ({
 
       {/* condition */}
       <div>
-        <h4 className="mb-4 text-lg font-medium">Condition</h4>
+        <h4 className="mb-4 text-lg font-medium">{t("condition")}</h4>
         <ul className="space-y-2">
           {conditions.map((c, i) => (
             <li key={i}>
@@ -97,7 +101,7 @@ export const Aside = ({
 
       {/* price */}
       <div>
-        <h4 className="mb-5 text-lg font-medium">Price</h4>
+        <h4 className="mb-5 text-lg font-medium">{t("price")}</h4>
         <Slider
           value={range}
           onValueChange={setRange}
@@ -108,7 +112,7 @@ export const Aside = ({
         />
 
         <p className="mt-3.5 text-sm text-gray-600 dark:text-gray-100">
-          range:{" "}
+          {t("priceRange")}:{" "}
           <span className="text-primary-400 font-bold">
             {toCurrency(range[0])} - {toCurrency(range[1])}
           </span>
@@ -125,7 +129,7 @@ export const Aside = ({
             })
           }
         >
-          Apply Price Range
+          {t("applyPriceRange")}
         </Button>
       </div>
     </div>

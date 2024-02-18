@@ -22,7 +22,7 @@ export const Footer = ({ t }: { t: any }) => {
           </li>
           <li>
             <a href="#" className="me-4 hover:underline md:me-6">
-              {t("licening")}
+              {t("licensing")}
             </a>
           </li>
           <li>

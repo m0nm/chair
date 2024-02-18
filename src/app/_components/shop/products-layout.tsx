@@ -1,6 +1,8 @@
 "use client";
 import { useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { dictMatcher } from "@/app/_lib/utils";
+import { dict } from "@/app/_config/i18n/shop-dict";
 
 import {
   Select,
@@ -20,9 +22,11 @@ export function ProductsLayout() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const { lang } = useParams();
+  const { t } = dictMatcher(dict, lang as "en");
+
   const createSearchParams = useCallback(
     (name: string, value: string) => {
-      // @ts-ignore
       const params = new URLSearchParams(searchParams);
       params.set(name, encodeURIComponent(value));
 
@@ -33,11 +37,12 @@ export function ProductsLayout() {
 
   return (
     <Select
+      dir={lang == "ar" ? "rtl" : "ltr"}
       defaultValue="three-columns"
       onValueChange={(value) => createSearchParams("layout", value)}
     >
       <SelectTrigger className="w-[180px]">
-        <span className="font-semibold">Layout:</span>
+        <span className="font-semibold">{t("layout")}:</span>
         <SelectValue defaultValue={"three-columns"} />
       </SelectTrigger>
 

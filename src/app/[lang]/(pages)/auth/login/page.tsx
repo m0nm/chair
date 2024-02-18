@@ -23,10 +23,6 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 
-export const metadata = {
-  title: "Chair | Login",
-};
-
 const formSchema = z.object({
   email: z
     .string({ required_error: "Email is required" })
