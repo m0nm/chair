@@ -66,16 +66,6 @@ const ITEMS = [
     label: "orders",
     icon: Receipt,
     link: "/orders",
-    subItems: [
-      {
-        label: "viewOrders",
-        link: "/orders",
-      },
-      {
-        label: "orderDetails",
-        link: "/orders/details",
-      },
-    ],
   },
   { label: "customers", icon: Users, link: "/customers" },
   {

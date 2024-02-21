@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Chair | Ecommerce admin dashboard](/public/screenshots/dashboard.png)
 
-## Getting Started
+# Notice
 
-First, run the development server:
+This project is still in development, and is not ready for real use.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Chair
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Chair is a simple furniture admin dashboard built with NextJS.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Next.js
+- Shadcn UI
+- Tailwind CSS
+- Typescript
+- Prisma
+- React
+- Zod
+- React Hook Form
+- TipTap Editor
 
-## Learn More
+# Screenshots
 
-To learn more about Next.js, take a look at the following resources:
+![products table](/public/screenshots/products.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![new product page](/public/screenshots/new-product.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Installation
 
-## Deploy on Vercel
+1 - clone this repo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2 - run `pnpm install`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3 - add env variables:
+
+    - DATABASE_URL="" (postgres database)
+    - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="" (for production use)
+    - CLOUDINARY_API_KEY="" (for production use)
+    - CLOUDINARY_API_SECRET="" (for production use)
+
+4 - run `npx ts-node /prisma/seed.ts`
+
+5 - run `npm run dev`
