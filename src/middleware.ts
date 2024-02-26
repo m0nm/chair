@@ -4,6 +4,11 @@ import type { NextRequest } from "next/server";
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname.includes("/api/")) {
+    throw Error("This demo is read only");
+  }
+
   if (!pathname.includes("/en")) {
     if (!pathname.includes("/ar")) {
       const url = request.nextUrl.clone();
@@ -16,5 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/((?!api|static|.*\\..*|_next).*)",
+  matcher: "/((?!static|.*\\..*|_next).*)",
 };
